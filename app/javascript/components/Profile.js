@@ -21,7 +21,7 @@ class Profile extends React.PureComponent {
       headers: {'Authorization': "bearer " + userData.token}
     };
     axios.get(
-      `http://localhost:3000/users/${userData.user_id}`,
+      `${location.protocol}//${location.host}/users/${userData.user_id}`,
       headers
     ).then((response) => {
       const data = response.data;
@@ -48,7 +48,7 @@ class Profile extends React.PureComponent {
       headers: {'Authorization': "bearer " + this.state.token}
     };
     axios.put(
-      `http://localhost:3000/users/${this.state.user_id}`,
+      `${location.protocol}//${location.host}/users/${this.state.user_id}`,
       data,
       headers
     ).then((response) => {
