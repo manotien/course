@@ -7,7 +7,9 @@ import service from '../service'
 class MainCourse extends React.Component {
   state = {
     role: '',
-    courses: []
+    courses: [],
+    searchName: '',
+    searchTime: ''
   }
 
   componentDidMount() {
@@ -15,15 +17,32 @@ class MainCourse extends React.Component {
     this.setState({
       role: role.code
     })
+    this.getCourseList()
+  }
 
+  getCourseList = () => {
+    const {
+      searchName,
+      searchTime
+    } = this.state
+    let params = {}
+    if(searchName) params['name'] = searchName
+    if(searchTime) params['time'] = searchTime
     service.get(
-      `/courses/`
+      `/courses/`,
+      { params }
     ).then((response) => {
       const data = response.data
       this.setState({ courses: data })
     }).catch((error) => {
       console.log(error)
     })
+  }
+
+  handleChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+    this.setState({ [name]: value })
   }
   
   render () {
@@ -51,18 +70,30 @@ class MainCourse extends React.Component {
           <Col md={5}>
             <Form.Row>
               <Form.Group as={Col}>
-                <Form.Control placeholder="Course Name" name="name"/>
+                <Form.Control
+                  placeholder="Course Name"
+                  name="searchName"
+                  onChange={this.handleChange}
+                />
               </Form.Group>
               <Form.Group as={Col}>
                 <InputGroup className="mb-3">
                   <InputGroup.Prepend>
                     <InputGroup.Text><i className="far fa-clock"/></InputGroup.Text>
                   </InputGroup.Prepend>
-                  <Form.Control type="time" placeholder="Time" name="time"/>
+                  <Form.Control
+                    type="time"
+                    placeholder="Time"
+                    name="searchTime"
+                    onChange={this.handleChange}
+                  />
                 </InputGroup>
               </Form.Group>
               <Form.Group as={Col}>
-                <Button variant="primary" type="submit">
+                <Button
+                  variant="primary"
+                  onClick={this.getCourseList}
+                >
                   Search <i className="fas fa-search"></i>
                 </Button>
               </Form.Group>
@@ -76,6 +107,7 @@ class MainCourse extends React.Component {
             </Col>
           ))}
         </Row>
+        { courses.length == 0 ? <h3 style={{textAlign: 'center'}}>No Course</h3> : null }
       </Container>
     )
   }
