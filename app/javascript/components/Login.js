@@ -4,8 +4,8 @@ import service from '../service'
 
 class Login extends React.Component {
   componentDidMount() {
-    const userData = JSON.parse(localStorage.getItem('user')) || {}
-    if(userData.token) {
+    const token = JSON.parse(localStorage.getItem('token'))
+    if(token) {
       this.props.history.push('/')
     }
   }
@@ -18,8 +18,9 @@ class Login extends React.Component {
       data,
     ).then((response) => {
       const data = response.data
-      localStorage.setItem('user', JSON.stringify(data))
-      localStorage.setItem('token', data.token)
+      localStorage.setItem('user', JSON.stringify(data.user))
+      localStorage.setItem('token', JSON.stringify(data.token))
+      localStorage.setItem('role', JSON.stringify(data.role))
       this.props.history.push('/')
     }).catch((error) => {
       console.log(error)

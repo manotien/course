@@ -4,11 +4,9 @@ class AuthController < ApplicationController
       if user&.authenticate(params[:password])
         token = JsonWebToken.encode(user_id: user.id)
         user_data = {
-          full_name: user.full_name,
+          user: user,
           token: token,
-          user_id: user.id,
-          role: user.role.code,
-          role_name: user.role.name,
+          role: user.role
         }
         render json: user_data, status: :ok
       else

@@ -14,7 +14,8 @@
     "react-dom": "^16.8.6",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "react_ujs": "^2.5.0"
+    "react_ujs": "^2.5.0",
+    "toastr": "^2.1.4"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.3.1"

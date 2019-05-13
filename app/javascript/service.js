@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const service = axios.create({
   baseURL: `${location.protocol}//${location.host}`,
-  timeout: 1000,
+  timeout: 15000,
   headers: {'Content-Type': 'application/json'},
 });
 
@@ -10,7 +10,7 @@ service.interceptors.request.use(
   config => {
     const csrfToken = document.querySelector('[name="csrf-token"]').getAttribute('content');
     config.headers.common['X-CSRF-TOKEN'] = csrfToken
-    const token = localStorage.getItem('token')
+    const token = JSON.parse(localStorage.getItem('token'))
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },

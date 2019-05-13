@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   root 'home#index'
   post 'auth/login'
-  resources :users
+  get 'users/get'
+  put 'users/update'
+  resources :courses
   match '*path', to: 'home#index', via: :all
-  # get '*path', to: redirect('/')
 end

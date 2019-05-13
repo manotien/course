@@ -1,10 +1,11 @@
 import React from 'react'
 import ClickOutside from './ClickOutside.js'
-import CourseList from './CourseList.js'
+import MainCourse from './MainCourse.js'
 import Profile from './Profile.js'
 import { Route } from 'react-router-dom'
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav'
 import '@trendmicro/react-sidenav/dist/react-sidenav.css'
+import CreateCourse from './CreateCourse.js'
 
 const navWidthCollapsed = 64
 const navWidthExpanded = 280
@@ -40,21 +41,27 @@ class Home extends React.Component {
     super(props)
     this.state = {
       expanded: false,
-      full_name: '',
-      role_name: '',
+      firstName: '',
+      lastName: '',
+      roleName: '',
     }
   }
 
   componentWillMount() {
-    const userData = JSON.parse(localStorage.getItem('user')) || {}
-    if(!userData.token) {
+    const token = JSON.parse(localStorage.getItem('token'))
+    if(!token) {
       this.props.history.push('/login')
     }
   }
 
   componentDidMount() {
-    const userData = JSON.parse(localStorage.getItem('user')) || {}
-    this.setState({ ...userData })
+    const user = JSON.parse(localStorage.getItem('user')) || {}
+    const role = JSON.parse(localStorage.getItem('role')) || {}
+    this.setState({
+      firstName: user.first_name,
+      lastName: user.last_name,
+      roleName: role.name
+    })
   }
 
   onToggle = (expanded) => {
@@ -66,11 +73,19 @@ class Home extends React.Component {
     localStorage.removeItem('token')
   }
 
+  handleUserDataChanged = (userData) => {
+    this.setState({ 
+      firstName: userData.first_name,
+      lastName: userData.last_name
+    })
+  }
+
   render() {
     const {
       expanded,
-      full_name,
-      role_name
+      firstName,
+      lastName,
+      roleName
     } = this.state
     return (
       <ClickOutside
@@ -93,10 +108,10 @@ class Home extends React.Component {
         >
           <SideNav.Toggle/>
           <span style={{ ...styles.user, display: expanded ? 'block' : 'none' }}>
-            { full_name }
+            { `${firstName} ${lastName}` }
           </span>
           <span style={{ ...styles.role, display: expanded ? 'block' : 'none' }}>
-            { role_name }
+            { roleName }
           </span>
           <SideNav.Nav defaultSelected="home">
             <NavItem eventKey="">
@@ -129,10 +144,9 @@ class Home extends React.Component {
           ...styles.mainStyle,
           left: expanded ? navWidthExpanded : navWidthCollapsed,
         }}>
-          <Route path="/" exact component={() => (
-            <CourseList {...this.state} />
-          )} />
-          <Route path="/profile" exact component={Profile} />
+          <Route path="/" exact component={MainCourse} />
+          <Route path="/profile" exact render={() => <Profile {...this.props} userDataChanged={this.handleUserDataChanged} />} />
+          <Route path="/course" exact render={() => <CreateCourse {...this.props} />} />
         </main>
       </ClickOutside>
     )

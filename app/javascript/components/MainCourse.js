@@ -1,22 +1,51 @@
 import React from 'react'
-import axios from 'axios';
 import CardCourse from './CardCourse.js'
 import { Container, Row, Col, Button, Form, InputGroup } from "react-bootstrap";
+import { Link } from 'react-router-dom'
+import service from '../service'
 
-class CourseList extends React.Component {
+class MainCourse extends React.Component {
+  state = {
+    role: '',
+    courses: []
+  }
+
   componentDidMount() {
+    const role = JSON.parse(localStorage.getItem('role'))
+    this.setState({
+      role: role.code
+    })
+
+    service.get(
+      `/courses/`
+    ).then((response) => {
+      const data = response.data
+      this.setState({ courses: data })
+    }).catch((error) => {
+      console.log(error)
+    })
   }
   
   render () {
     const {
-      role
-    } = this.props
+      role,
+      courses
+    } = this.state
     const isInstructor = role == 'instructor';
     return (
       <Container>
         <Row>
           <Col md={2}>
-            { isInstructor ? <Button variant="success">Create <i className="fas fa-plus-circle"/></Button> : null }
+            { isInstructor ? 
+              <Link to="/course">
+                <Button
+                  variant="success"
+                >
+                  Create <i className="fas fa-plus-circle"/>
+                </Button>
+              </Link>
+              : null 
+            }
           </Col>
           <Col md={5}></Col>
           <Col md={5}>
@@ -41,26 +70,15 @@ class CourseList extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col style={{ marginBottom: 15 }} md={6}>
-            <CardCourse
-            />
-          </Col>
-          <Col md={6}>
-            <CardCourse
-            />
-          </Col>
-          <Col md={6}>
-            <CardCourse
-            />
-          </Col>
-          <Col md={6}>
-            <CardCourse
-            />
-          </Col>
+          {courses.map(item => (
+            <Col style={{marginBottom: 15}} md={6} key={item.id}>
+              <CardCourse {...item}/>
+            </Col>
+          ))}
         </Row>
       </Container>
     )
   }
 }
   
-export default CourseList
+export default MainCourse

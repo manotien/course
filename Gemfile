@@ -64,3 +64,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'bootstrap', '~> 4.3.1'
 gem 'font-awesome-sass', '~> 5.8.1'
+
+gem 'jquery-rails'
+gem 'toastr-rails'  
+
+gem 'active_model_serializers'

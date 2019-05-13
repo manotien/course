@@ -1,6 +1,5 @@
 import React from 'react'
-import CardCourse from './CardCourse.js'
-import { Container, Row, Col, Button, Badge } from "react-bootstrap";
+import { Col, Badge } from "react-bootstrap";
 import PropTypes from 'prop-types'
 
 const styles = {
@@ -16,10 +15,18 @@ const styles = {
     fontWeight: 'bold',
     color: '#9e9898'
   },
+  studentNumber: {
+    float: 'left',
+    marginBottom: 0,
+    marginTop: 10,
+    fontWeight: 'bold',
+    fontSize: '0.87em'
+  },
   owner: {
-    textAlign: 'right',
-    margin: 0,
-    fontWeight: 'bold'
+    float: 'right',
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 0
   },
   description: {
     marginLeft: 20,
@@ -27,21 +34,42 @@ const styles = {
   }
 }
 
-class CourseList extends React.Component {
+class CardCourse extends React.Component {
   static propTypes = {
+    category: PropTypes.string,
+    create_by: PropTypes.string,
+    description: PropTypes.string,
+    end_time: PropTypes.string,
+    name: PropTypes.string,
+    start_time: PropTypes.string,
+    student_number: PropTypes.number,
+    subject: PropTypes.string
   }
   
   render () {
+    const {
+      category,
+      create_by,
+      description,
+      end_time,
+      name,
+      start_time,
+      student_number,
+      subject
+    } = this.props
     return (
       <Col style={styles.card}>
-        <h5>Course Name <Badge variant="info">Subject</Badge> <Badge variant="primary">Catagory</Badge> </h5>
-        <p style={styles.time}><i className="far fa-clock"/> 15.30 - 17.30</p>        
-        <span style={styles.description}>เริ่มต้นตั้งแต่ ปูพื้นฐาน อ่านงบการเงิน การอ่านงบการเงิน อาจมองว่าเป็นเรื่องที่ยาก เพราะต้องเรียนรู้บัญชีลึกๆ และคำศัพท์ต่างๆ มากมาย แต่จริงๆแล้ว ไม่ได้จำเป็นขนาดนั้นนะครับ เราเป็นนักลงทุนไม่จำเป็นต้องรู้ว่าบัญชีเค้าทำกันอย่างไร แค่อ่านงบการเงินให้เป็นก็เพียงพอแล้วครับ และง่ายกว่ากันเยอะ</span>
-        <p style={styles.owner}>By อรรถพล กิตติธรรมสาร</p>
+        <h5>{name} <Badge variant="info">{subject}</Badge> <Badge variant="primary">{category}</Badge> </h5>
+        <p style={styles.time}><i className="far fa-clock"/> {start_time} - {end_time}</p>        
+        <span style={styles.description}>{description}</span>
+        <div style={{"clear": "both"}}></div>
+        <p style={styles.studentNumber}>Student Number: {student_number}</p>
+        <p style={styles.owner}>By {create_by}</p>
+        <div style={{"clear": "both"}}></div>
       </Col>
     )
   }
 }
   
-export default CourseList
+export default CardCourse
   

@@ -1,45 +1,57 @@
 import React from 'react'
-import axios from 'axios';
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import service from '../service'
+import toastr from 'toastr'
 
-class Profile extends React.PureComponent {
+class Profile extends React.Component {
   state = {
     birthday: '',
-    first_name: '',
-    last_name: '',
-    nick_name: '',
+    firstName: '',
+    lastName: '',
+    nickName: '',
     gender: '',
-    user_id: '',
-    token: ''
+    userId: ''
   }
 
   componentDidMount() {
-    const userData = JSON.parse(localStorage.getItem('user')) || {}
     service.get(
-      `/users/${userData.user_id}`
+      `/users/get`
     ).then((response) => {
-      const data = response.data;
-      this.setState({...this.cleanNull(data), user_id: data.id, token: userData.token})
+      const data = response.data
+      localStorage.setItem('user', JSON.stringify(data))
+      this.setState({
+        birthday: data.birthday,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        nickName: data.nick_name,
+        gender: data.gender,
+        userId: data.id
+      })
     }).catch((error) => {
       console.log(error)
     })
   }
-
-  cleanNull = (data) => {
-    Object.keys(data).forEach((key) => {
-      if(data[key] == null) data[key] = ''
-    });
-    return data
+  
+  toSnakeCase = (s) => {
+    return s.replace(/(?:^|\.?)([A-Z])/g, (x,y) => {
+      return "_" + y.toLowerCase()
+    }).replace(/^_/, "")
   }
 
-  handleSave = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault()
-    const data = this.state
+    let data = {}
+    for (let key in this.state) {
+      data[this.toSnakeCase(key)] = this.state[key]
+    }
     service.put(
-      `/users/${this.state.user_id}`,
+      `/users/update`,
       data
     ).then((response) => {
+      const data = response.data
+      localStorage.setItem('user', JSON.stringify(data))
+      this.props.userDataChanged(data)
+      toastr.success('Save Success!')
     }).catch((error) => {
       console.log(error)
     })
@@ -51,12 +63,16 @@ class Profile extends React.PureComponent {
     this.setState({ [name]: value })
   }
   
+  handleGoBack = () => {
+    this.props.history.push('/')
+  }
+
   render () {
     const {
       birthday,
-      first_name,
-      last_name,
-      nick_name,
+      firstName,
+      lastName,
+      nickName,
       gender
     } = this.state
     return (
@@ -69,7 +85,7 @@ class Profile extends React.PureComponent {
         <Row className="justify-content-md-center">
           <Col md={8}>
             <Form
-              onSubmit={this.handleSave}
+              onSubmit={this.handleSubmit}
             >
               <Form.Row>
                 <Form.Group as={Col} md="6">
@@ -78,8 +94,8 @@ class Profile extends React.PureComponent {
                     required
                     type="text"
                     placeholder="First name"
-                    name="first_name"
-                    value={first_name}
+                    name="firstName"
+                    value={firstName}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
@@ -89,8 +105,8 @@ class Profile extends React.PureComponent {
                     required
                     type="text"
                     placeholder="Last name"
-                    name="last_name"
-                    value={last_name}
+                    name="lastName"
+                    value={lastName}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
@@ -102,8 +118,8 @@ class Profile extends React.PureComponent {
                     required
                     type="text"
                     placeholder="Nick Name"
-                    name="nick_name"
-                    value={nick_name}
+                    name="nickName"
+                    value={nickName}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
@@ -133,9 +149,22 @@ class Profile extends React.PureComponent {
                   </Form.Control>
                 </Form.Group>
               </Form.Row>
-              <Button variant="primary" type="submit">
-                Save
-              </Button>
+              <Form.Group as={Row}>
+                <Col sm="3">
+                  <Button block variant="primary" type="submit">
+                    Save
+                  </Button>
+                </Col>
+                <Col sm="3">
+                  <Button
+                    block
+                    variant="danger"
+                    onClick={this.handleGoBack}
+                  >
+                    Cancel
+                  </Button>
+                </Col>
+              </Form.Group>
             </Form>
           </Col>
         </Row>
