@@ -63,6 +63,7 @@ class Home extends React.Component {
   
   handleLogout = () => {
     localStorage.removeItem('user')
+    localStorage.removeItem('token')
   }
 
   render() {

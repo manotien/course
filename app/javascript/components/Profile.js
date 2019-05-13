@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios';
-import { Container, Row, Col, Button, Form, InputGroup } from "react-bootstrap";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import service from '../service'
 
 class Profile extends React.PureComponent {
   state = {
@@ -15,14 +16,8 @@ class Profile extends React.PureComponent {
 
   componentDidMount() {
     const userData = JSON.parse(localStorage.getItem('user')) || {}
-    const csrfToken = document.querySelector('[name="csrf-token"]').getAttribute('content');
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
-    const headers = {
-      headers: {'Authorization': "bearer " + userData.token}
-    };
-    axios.get(
-      `${location.protocol}//${location.host}/users/${userData.user_id}`,
-      headers
+    service.get(
+      `/users/${userData.user_id}`
     ).then((response) => {
       const data = response.data;
       this.setState({...this.cleanNull(data), user_id: data.id, token: userData.token})
@@ -39,18 +34,11 @@ class Profile extends React.PureComponent {
   }
 
   handleSave = (event) => {
-    event.preventDefault();
-    const data = this.state;
-    delete data['password_digest']
-    const csrfToken = document.querySelector('[name="csrf-token"]').getAttribute('content');
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
-    const headers = {
-      headers: {'Authorization': "bearer " + this.state.token}
-    };
-    axios.put(
-      `${location.protocol}//${location.host}/users/${this.state.user_id}`,
-      data,
-      headers
+    event.preventDefault()
+    const data = this.state
+    service.put(
+      `/users/${this.state.user_id}`,
+      data
     ).then((response) => {
     }).catch((error) => {
       console.log(error)

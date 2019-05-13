@@ -1,30 +1,29 @@
-import React from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import axios from 'axios';
+import React from "react"
+import { Container, Row, Col, Form, Button } from "react-bootstrap"
+import service from '../service'
 
 class Login extends React.Component {
   componentDidMount() {
-    const userData = JSON.parse(localStorage.getItem('user')) || {};
+    const userData = JSON.parse(localStorage.getItem('user')) || {}
     if(userData.token) {
       this.props.history.push('/')
     }
   }
 
   handleLogin = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    const csrfToken = document.querySelector('[name="csrf-token"]').getAttribute('content');
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
-    axios.post(
-      `${location.protocol}//${location.host}/auth/login/`,
+    event.preventDefault()
+    const data = new FormData(event.target)
+    service.post(
+      '/auth/login/',
       data,
     ).then((response) => {
       const data = response.data
       localStorage.setItem('user', JSON.stringify(data))
+      localStorage.setItem('token', data.token)
       this.props.history.push('/')
     }).catch((error) => {
       console.log(error)
-    });
+    })
   }
   
   render () {
