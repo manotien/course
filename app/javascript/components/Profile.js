@@ -28,6 +28,7 @@ class Profile extends React.Component {
         userId: data.id
       })
     }).catch((error) => {
+      toastr.error('Something went wrong!')
       console.log(error)
     })
   }
@@ -53,6 +54,7 @@ class Profile extends React.Component {
       this.props.userDataChanged(data)
       toastr.success('Save Success!')
     }).catch((error) => {
+      toastr.error('Something went wrong!')
       console.log(error)
     })
   }

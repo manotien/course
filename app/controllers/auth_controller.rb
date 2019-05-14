@@ -10,7 +10,7 @@ class AuthController < ApplicationController
         }
         render json: user_data, status: :ok
       else
-        render json: { error: 'unauthorized' }, status: :unauthorized
+        render json: { error: 'unauthorized' }, status: :bad_request
       end
     end
     

@@ -44,6 +44,7 @@ class CreateCourse extends React.Component {
       toastr.options.timeOut = 500
       toastr.success('Save Success!')
     }).catch((error) => {
+      toastr.error('Something went wrong!')
       console.log(error)
     })
   }

@@ -1,8 +1,12 @@
 import React from "react"
-import { Container, Row, Col, Form, Button } from "react-bootstrap"
+import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap"
 import service from '../service'
 
 class Login extends React.Component {
+  state = {
+    showError: false
+  }
+
   componentDidMount() {
     const token = JSON.parse(localStorage.getItem('token'))
     if(token) {
@@ -11,6 +15,7 @@ class Login extends React.Component {
   }
 
   handleLogin = (event) => {
+    this.setState({'showError': false})
     event.preventDefault()
     const data = new FormData(event.target)
     service.post(
@@ -23,11 +28,16 @@ class Login extends React.Component {
       localStorage.setItem('role', JSON.stringify(data.role))
       this.props.history.push('/')
     }).catch((error) => {
-      console.log(error)
+      if(error.response.status == 400) {
+        this.setState({'showError': true})
+      }
     })
   }
   
   render () {
+    const {
+      showError
+    } = this.state
     return (
       <Container>
         <br/>
@@ -54,6 +64,11 @@ class Login extends React.Component {
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="password" name="password"/>
               </Form.Group>
+              { showError ?
+                <Alert variant="danger">
+                  Incorrect username or password
+                </Alert> : null
+              }
               <Button variant="primary" type="submit">
                 Submit
               </Button>

@@ -35,6 +35,7 @@ class MainCourse extends React.Component {
       const data = response.data
       this.setState({ courses: data })
     }).catch((error) => {
+      toastr.error('Something went wrong!')
       console.log(error)
     })
   }
