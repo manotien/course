@@ -13,6 +13,13 @@ class MainCourse extends React.Component {
     searchTime: ''
   }
 
+  componentWillMount() {
+    const token = JSON.parse(localStorage.getItem('token'))
+    if(!token) {
+      this.props.history.push('/login')
+    }
+  }
+
   componentDidMount() {
     const role = JSON.parse(localStorage.getItem('role')) || {}
     this.setState({
@@ -34,7 +41,7 @@ class MainCourse extends React.Component {
       { params }
     ).then((response) => {
       const data = response.data
-      this.setState({ courses: data })
+      this.setState({courses: data})
     }).catch((error) => {
       toastr.error('Something went wrong!')
       console.log(error)
@@ -44,7 +51,7 @@ class MainCourse extends React.Component {
   handleChange = (event) => {
     const name = event.target.name
     const value = event.target.value
-    this.setState({ [name]: value })
+    this.setState({[name]: value})
   }
   
   render () {

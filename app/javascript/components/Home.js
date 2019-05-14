@@ -65,7 +65,7 @@ class Home extends React.Component {
   }
 
   onToggle = (expanded) => {
-    this.setState({ expanded: expanded })
+    this.setState({expanded: expanded})
   }
   
   handleLogout = () => {
@@ -90,7 +90,7 @@ class Home extends React.Component {
     return (
       <ClickOutside
         onClickOutside={() => {
-          this.setState({ expanded: false })
+          this.setState({expanded: false})
         }}
       >
         <SideNav

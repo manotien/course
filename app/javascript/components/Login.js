@@ -15,7 +15,7 @@ class Login extends React.Component {
   }
 
   handleLogin = (event) => {
-    this.setState({'showError': false})
+    this.setState({showError: false})
     event.preventDefault()
     const data = new FormData(event.target)
     service.post(
@@ -29,7 +29,7 @@ class Login extends React.Component {
       this.props.history.push('/')
     }).catch((error) => {
       if(error.response.status == 400) {
-        this.setState({'showError': true})
+        this.setState({showError: true})
       }
     })
   }
