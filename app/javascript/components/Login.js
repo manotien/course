@@ -58,11 +58,11 @@ class Login extends React.Component {
             >
               <Form.Group>
                 <Form.Label>Username</Form.Label>
-                <Form.Control placeholder="username" name="username"/>
+                <Form.Control required placeholder="username" name="username"/>
               </Form.Group>
               <Form.Group>
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="password" name="password"/>
+                <Form.Control required type="password" placeholder="password" name="password"/>
               </Form.Group>
               { showError ?
                 <Alert variant="danger">

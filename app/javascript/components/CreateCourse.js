@@ -66,117 +66,125 @@ class CreateCourse extends React.Component {
         </Row>
         <br/>
         <Row className="justify-content-md-center">
-          <Form as={Col} md={8}>
-            <Form.Group as={Row}>
-              <Form.Label column sm="3">
-                Name
-              </Form.Label>
-              <Col sm="9">
-                <Form.Control
-                  placeholder="Name"
-                  name="name"
-                  value={name}
-                  onChange={this.handleChange}
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row}>
-              <Form.Label column sm="3">
-                Subject
-              </Form.Label>
-              <Col sm="9">
-                <Form.Control
-                  placeholder="Subject"
-                  name="subject"
-                  value={subject}
-                  onChange={this.handleChange}
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row}>
-              <Form.Label column sm="3">
-                Category
-              </Form.Label>
-              <Col sm="9">
-                <Form.Control
-                  placeholder="Category"
-                  name="category"
-                  value={category}
-                  onChange={this.handleChange}
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row}>
-              <Form.Label column sm="3">
-                Description
-              </Form.Label>
-              <Col sm="9">
-                <Form.Control
-                  placeholder="Description"
-                  name="description"
-                  as="textarea"
-                  rows="3"
-                  value={description}
-                  onChange={this.handleChange}
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row}>
-              <Form.Label column sm="3">
-                Student Number
-              </Form.Label>
-              <Col sm="9">
-                <Form.Control
-                  placeholder="Student Number"
-                  name="studentNumber"
-                  type="number"
-                  value={studentNumber}
-                  onChange={this.handleChange}
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row}>
-              <Form.Label column sm="3">
-                Start - End Time
-              </Form.Label>
-              <Col sm="4">
-                <Form.Control
-                  type="time"
-                  name="startTime"
-                  value={startTime}
-                  onChange={this.handleChange}
-                />
-              </Col>
-              <Form.Label column sm="1">
-                <i className="fas fa-minus"></i>
-              </Form.Label>
-              <Col sm="4">
-                <Form.Control
-                  type="time"
-                  name="endTime"
-                  value={endTime}
-                  onChange={this.handleChange}
-                />
-              </Col>
-            </Form.Group>
-            <br/>
-            <Form.Group as={Row}>
-              <Col sm="3">
-                <Button block variant="primary" onClick={this.handleSubmit}>
-                  Submit
-                </Button>
-              </Col>
-              <Col sm="3">
-                <Button
-                  block
-                  variant="danger"
-                  onClick={this.handleGoBack}
-                >
-                  Cancel
-                </Button>
-              </Col>
-            </Form.Group>
-          </Form>
+          <Col md={8}>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Group as={Row}>
+                <Form.Label column sm="3">
+                  Name
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    placeholder="Name"
+                    name="name"
+                    value={name}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row}>
+                <Form.Label column sm="3">
+                  Subject
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    placeholder="Subject"
+                    name="subject"
+                    value={subject}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row}>
+                <Form.Label column sm="3">
+                  Category
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    placeholder="Category"
+                    name="category"
+                    value={category}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row}>
+                <Form.Label column sm="3">
+                  Description
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    placeholder="Description"
+                    name="description"
+                    as="textarea"
+                    rows="3"
+                    value={description}
+                    onChange={this.handleChange}
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row}>
+                <Form.Label column sm="3">
+                  Student Number
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    placeholder="Student Number"
+                    name="studentNumber"
+                    type="number"
+                    value={studentNumber}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row}>
+                <Form.Label column sm="3">
+                  Start - End Time
+                </Form.Label>
+                <Col sm="4">
+                  <Form.Control
+                    type="time"
+                    name="startTime"
+                    value={startTime}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Col>
+                <Form.Label column sm="1">
+                  <i className="fas fa-minus"></i>
+                </Form.Label>
+                <Col sm="4">
+                  <Form.Control
+                    type="time"
+                    name="endTime"
+                    value={endTime}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Col>
+              </Form.Group>
+              <br/>
+              <Form.Group as={Row}>
+                <Col sm="3">
+                  <Button block variant="primary" type="submit">
+                    Submit
+                  </Button>
+                </Col>
+                <Col sm="3">
+                  <Button
+                    block
+                    variant="danger"
+                    onClick={this.handleGoBack}
+                  >
+                    Cancel
+                  </Button>
+                </Col>
+              </Form.Group>
+            </Form>
+          </Col>
         </Row>
       </Container>
     )
