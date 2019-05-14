@@ -13,14 +13,12 @@ class MainCourse extends React.Component {
     searchTime: ''
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const token = JSON.parse(localStorage.getItem('token'))
     if(!token) {
       this.props.history.push('/login')
+      return
     }
-  }
-
-  componentDidMount() {
     const role = JSON.parse(localStorage.getItem('role')) || {}
     this.setState({
       role: role.code

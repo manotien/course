@@ -47,14 +47,12 @@ class Home extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const token = JSON.parse(localStorage.getItem('token'))
     if(!token) {
       this.props.history.push('/login')
+      return
     }
-  }
-
-  componentDidMount() {
     const user = JSON.parse(localStorage.getItem('user')) || {}
     const role = JSON.parse(localStorage.getItem('role')) || {}
     this.setState({
